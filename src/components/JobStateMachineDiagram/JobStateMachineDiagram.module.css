@@ -1,0 +1,116 @@
+.diagram {
+  display: block;
+  width: 100%;
+  height: auto;
+  font-family: var(--font-mono);
+  background:
+    radial-gradient(120% 90% at 50% 0%, color-mix(in oklch, var(--primary) 8%, transparent), transparent 60%),
+    var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+}
+
+/* ---------- edges ---------- */
+.edge {
+  stroke: var(--line-strong);
+  stroke-width: 1.5;
+  opacity: 0.5;
+}
+.edgeOn {
+  stroke: var(--primary);
+  stroke-width: 2;
+  opacity: 0.95;
+  stroke-dasharray: 6 7;
+  animation: cdu-flow 1.1s linear infinite;
+}
+
+/* ---------- nodes ---------- */
+.box {
+  fill: var(--panel-2);
+  stroke: var(--line);
+  stroke-width: 1.5;
+  transition: stroke 200ms ease, fill 200ms ease;
+}
+.label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  fill: var(--muted);
+}
+
+/* group colours — soft fill idle, solid ink text once visited */
+.g_started .box { stroke: color-mix(in oklch, var(--state-started) 45%, var(--line)); }
+.g_complete .box { stroke: color-mix(in oklch, var(--state-complete) 45%, var(--line)); }
+.g_waiting .box { stroke: color-mix(in oklch, var(--state-waiting) 45%, var(--line)); }
+.g_failed .box { stroke: color-mix(in oklch, var(--state-failed) 45%, var(--line)); }
+.g_muted .box { stroke: var(--line); }
+.g_rejected .box { stroke: color-mix(in oklch, var(--state-rejected) 55%, var(--line)); }
+
+.visited.g_started .box { fill: var(--state-started-soft); }
+.visited.g_started .label { fill: var(--state-started); }
+.visited.g_complete .box { fill: var(--state-complete-soft); }
+.visited.g_complete .label { fill: var(--state-complete); }
+.visited.g_waiting .box { fill: var(--state-waiting-soft); }
+.visited.g_waiting .label { fill: var(--state-waiting); }
+.visited.g_failed .box { fill: var(--state-failed-soft); }
+.visited.g_failed .label { fill: var(--state-failed); }
+.visited.g_muted .box { fill: var(--state-muted-soft); }
+.visited.g_muted .label { fill: var(--state-muted); }
+
+/* REJECTED — the loudest node: solid fill, inverted ink, once visited */
+.visited.g_rejected .box {
+  fill: var(--state-rejected);
+  stroke: var(--state-rejected);
+}
+.visited.g_rejected .label {
+  fill: var(--state-rejected-ink);
+  font-weight: 800;
+}
+
+/* active state — a pulsing ring (the current beat) */
+.active .box {
+  stroke: var(--primary);
+  stroke-width: 2.5;
+  animation: cdu-pulse 1.4s ease-in-out infinite;
+}
+
+/* not toured — dimmed, dashed, marked (never faked) */
+.notToured .box {
+  fill: transparent;
+  stroke: var(--line);
+  stroke-dasharray: 4 4;
+}
+.notToured .label {
+  fill: color-mix(in oklch, var(--muted) 60%, transparent);
+}
+.marker {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  fill: color-mix(in oklch, var(--muted) 70%, transparent);
+}
+
+/* per-state counter badge */
+.counter circle {
+  fill: var(--ink);
+}
+.counter text {
+  font-size: 10px;
+  font-weight: 800;
+  fill: var(--bg);
+}
+
+@keyframes cdu-flow {
+  to { stroke-dashoffset: -26; }
+}
+@keyframes cdu-pulse {
+  0%, 100% { stroke-opacity: 1; }
+  50% { stroke-opacity: 0.35; }
+}
+
+/* reduced motion — collapse continuous flow to a static highlight */
+@media (prefers-reduced-motion: reduce) {
+  .edgeOn { animation: none; stroke-dasharray: none; }
+  .active .box { animation: none; }
+}

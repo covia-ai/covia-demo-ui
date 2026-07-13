@@ -1,0 +1,182 @@
+/*
+ * covia-demo-ui design tokens — v0
+ *
+ * Plain CSS custom properties, both themes, OKLCH throughout. Import standalone:
+ *     import '@covia/demo-ui/tokens';
+ * Every demo consumes these; visual changes happen here, never forked per demo.
+ *
+ * Theme resolution:
+ *   - Light is the default (:root).
+ *   - Dark applies when the OS prefers dark, UNLESS the app forces light via
+ *     [data-theme='light'].
+ *   - [data-theme='dark'] forces dark regardless of OS.
+ *
+ * Palette anchors: Royal Purple #6B46C1, Cerulean #4A90E2,
+ * Midnight Navy #1E2642, Amber Gold #F2AE30, Neutral Gray #E5E5E9.
+ *
+ * Semantic state colours are provided as a solid ink (`--state-*`) for text and
+ * diagram nodes, and a soft fill (`--state-*-soft`) for pill backgrounds. Every
+ * ink-on-soft and on-solid pair is AA-verified in both themes by
+ * `scripts/contrast.test.ts` — do not edit a value without re-running the test.
+ */
+
+:root {
+  /* ---- Brand anchors ---- */
+  --royal: oklch(0.47 0.18 293);
+  --cerulean: oklch(0.64 0.14 255);
+  --navy: oklch(0.25 0.04 279);
+  --amber: oklch(0.78 0.15 80);
+  --gray: oklch(0.92 0.005 286);
+
+  /* ---- Surfaces ---- */
+  --bg: oklch(0.99 0.002 286);
+  --panel: oklch(0.975 0.003 286);
+  --panel-2: oklch(0.94 0.004 286);
+  --header: oklch(0.25 0.04 279);
+  --header-ink: oklch(0.97 0.005 286);
+
+  /* ---- Ink / text ---- */
+  --ink: oklch(0.27 0.03 279);
+  --ink-soft: oklch(0.41 0.03 279);
+  --muted: oklch(0.50 0.02 286);
+
+  /* ---- Lines ---- */
+  --line: oklch(0.89 0.005 286);
+  --line-strong: oklch(0.80 0.008 286);
+
+  /* ---- Brand as interactive ink ---- */
+  --primary: oklch(0.47 0.18 293);
+  --primary-ink: oklch(0.99 0.002 286); /* text ON a solid --primary fill */
+
+  /* ---- Semantic states (ink + soft fill) ---- */
+  --state-complete: oklch(0.50 0.15 150);
+  --state-complete-soft: oklch(0.95 0.045 150);
+
+  --state-started: oklch(0.52 0.13 255);
+  --state-started-soft: oklch(0.95 0.04 255);
+
+  --state-failed: oklch(0.52 0.20 25);
+  --state-failed-soft: oklch(0.95 0.05 25);
+
+  /* REJECTED is the loudest pair — solid fill + white ink */
+  --state-rejected: oklch(0.52 0.24 27);
+  --state-rejected-soft: oklch(0.94 0.065 27);
+  --state-rejected-ink: oklch(0.99 0.002 286);
+
+  --state-waiting: oklch(0.52 0.11 75);
+  --state-waiting-soft: oklch(0.94 0.06 82);
+
+  --state-muted: oklch(0.50 0.02 286);
+  --state-muted-soft: oklch(0.93 0.004 286);
+
+  /* ---- Aliases used by the migrated badge components ---- */
+  --success: var(--state-complete);
+  --success-soft: var(--state-complete-soft);
+  --danger: var(--state-failed);
+  --danger-soft: var(--state-failed-soft);
+
+  /* ---- Typography ---- */
+  --font-ui: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', 'Cascadia Code', Menlo, monospace;
+
+  /* ---- Spacing (4px base) ---- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  /* ---- Radius ---- */
+  --radius-sm: 4px;
+  --radius: 8px;
+  --radius-lg: 14px;
+
+  color-scheme: light;
+}
+
+/* Dark tokens, shared by OS-dark (not forced light) and explicit dark. */
+:root[data-theme='dark'],
+:root:not([data-theme='light']) {
+  /* placeholder to keep specificity; real values come from the blocks below */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: oklch(0.19 0.02 279);
+    --panel: oklch(0.23 0.025 279);
+    --panel-2: oklch(0.28 0.03 279);
+    --header: oklch(0.17 0.02 279);
+    --header-ink: oklch(0.96 0.005 286);
+
+    --ink: oklch(0.95 0.006 286);
+    --ink-soft: oklch(0.80 0.01 286);
+    --muted: oklch(0.66 0.015 286);
+
+    --line: oklch(0.36 0.02 279);
+    --line-strong: oklch(0.46 0.02 279);
+
+    --primary: oklch(0.72 0.15 293);
+    --primary-ink: oklch(0.18 0.02 279);
+
+    --state-complete: oklch(0.78 0.15 150);
+    --state-complete-soft: oklch(0.31 0.06 150);
+
+    --state-started: oklch(0.74 0.12 255);
+    --state-started-soft: oklch(0.31 0.05 255);
+
+    --state-failed: oklch(0.72 0.17 25);
+    --state-failed-soft: oklch(0.31 0.08 25);
+
+    --state-rejected: oklch(0.70 0.20 27);
+    --state-rejected-soft: oklch(0.33 0.10 27);
+    --state-rejected-ink: oklch(0.15 0.02 279);
+
+    --state-waiting: oklch(0.82 0.13 82);
+    --state-waiting-soft: oklch(0.33 0.06 82);
+
+    --state-muted: oklch(0.70 0.015 286);
+    --state-muted-soft: oklch(0.30 0.01 286);
+
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme='dark'] {
+  --bg: oklch(0.19 0.02 279);
+  --panel: oklch(0.23 0.025 279);
+  --panel-2: oklch(0.28 0.03 279);
+  --header: oklch(0.17 0.02 279);
+  --header-ink: oklch(0.96 0.005 286);
+
+  --ink: oklch(0.95 0.006 286);
+  --ink-soft: oklch(0.80 0.01 286);
+  --muted: oklch(0.66 0.015 286);
+
+  --line: oklch(0.36 0.02 279);
+  --line-strong: oklch(0.46 0.02 279);
+
+  --primary: oklch(0.72 0.15 293);
+  --primary-ink: oklch(0.18 0.02 279);
+
+  --state-complete: oklch(0.78 0.15 150);
+  --state-complete-soft: oklch(0.31 0.06 150);
+
+  --state-started: oklch(0.74 0.12 255);
+  --state-started-soft: oklch(0.31 0.05 255);
+
+  --state-failed: oklch(0.72 0.17 25);
+  --state-failed-soft: oklch(0.31 0.08 25);
+
+  --state-rejected: oklch(0.70 0.20 27);
+  --state-rejected-soft: oklch(0.33 0.10 27);
+  --state-rejected-ink: oklch(0.15 0.02 279);
+
+  --state-waiting: oklch(0.82 0.13 82);
+  --state-waiting-soft: oklch(0.33 0.06 82);
+
+  --state-muted: oklch(0.70 0.015 286);
+  --state-muted-soft: oklch(0.30 0.01 286);
+
+  color-scheme: dark;
+}

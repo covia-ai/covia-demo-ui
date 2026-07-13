@@ -1,0 +1,42 @@
+.badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  white-space: nowrap;
+  line-height: 1.5;
+}
+
+.complete {
+  background: var(--state-complete-soft);
+  color: var(--state-complete);
+}
+.started {
+  background: var(--state-started-soft);
+  color: var(--state-started);
+}
+.failed {
+  background: var(--state-failed-soft);
+  color: var(--state-failed);
+  border-color: color-mix(in oklch, var(--state-failed) 35%, transparent);
+}
+.waiting {
+  background: var(--state-waiting-soft);
+  color: var(--state-waiting);
+}
+.muted {
+  background: var(--state-muted-soft);
+  color: var(--state-muted);
+}
+
+/* REJECTED — the loudest pair: solid fill, inverted ink. */
+.rejected {
+  background: var(--state-rejected);
+  color: var(--state-rejected-ink);
+  border-color: var(--state-rejected);
+  font-weight: 800;
+}

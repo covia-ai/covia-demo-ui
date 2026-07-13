@@ -1,0 +1,36 @@
+name: CI
+
+# CI: typecheck + tests (component + AA-contrast) with coverage thresholds,
+# and a build check, on every PR to develop and on develop merges.
+on:
+  pull_request:
+    branches: [develop]
+  push:
+    branches: [develop]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: 10.12.4 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      # Component tests + coverage (components 80%, enforced in vite.config.ts).
+      - run: pnpm test:coverage
+      - run: pnpm build
+
+  contrast:
+    # The token AA-contrast gate, called out as its own job for visibility.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: 10.12.4 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm vitest run scripts/contrast.test.ts

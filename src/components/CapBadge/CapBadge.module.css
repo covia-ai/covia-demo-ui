@@ -1,0 +1,73 @@
+.cap {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  background: var(--panel);
+  margin-bottom: var(--space-4);
+}
+.dangerous {
+  border-color: color-mix(in oklch, var(--state-failed) 40%, var(--line));
+}
+.revoked {
+  opacity: 0.72;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.name {
+  font-family: var(--font-ui);
+  font-weight: 650;
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+.doc {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--ink-soft);
+  margin-top: var(--space-2);
+  word-break: break-all;
+}
+.desc {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-top: var(--space-2);
+}
+
+.badge {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+.badgeValid {
+  background: var(--state-complete-soft);
+  color: var(--state-complete);
+}
+.badgeRevoked {
+  background: var(--state-failed-soft);
+  color: var(--state-failed);
+  animation: cdu-flip 300ms ease;
+}
+
+@keyframes cdu-flip {
+  from {
+    transform: rotateX(90deg);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badgeRevoked {
+    animation: none;
+  }
+}
