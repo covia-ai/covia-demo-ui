@@ -8,7 +8,7 @@ Tokens and components live here once; visual changes happen here, never forked p
 
 ## Install
 
-While the repos are private, consume as a git dependency pinned to a tag (D001):
+While the repos are private, consume as a git dependency pinned to a tag:
 
 ```bash
 pnpm add github:covia-ai/covia-demo-ui#v0.1
@@ -51,7 +51,7 @@ Typography: `--font-ui` (Inter), `--font-mono` (JetBrains Mono). Spacing on a 4p
 | `SpendCapCounter` | stub | `{ remaining, total, unit, source }` | ✅ stub (venue data wired in later) |
 | `TraceViewer` | library | `{ events, highlightJobId?, onSelect? }` | ✅ shipped |
 | `JobStateMachineDiagram` | library | `{ events, notToured?, activeStates? }` | ✅ shipped |
-| `ContextInspector` | demo-local | — | stays out of the library at v0 (D003) |
+| `ContextInspector` | demo-local | — | stays out of the library at v0 |
 
 Types (`JobState`, `JobEvent`, and all prop interfaces) are exported from the entry.
 

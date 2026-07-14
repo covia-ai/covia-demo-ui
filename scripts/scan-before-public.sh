@@ -22,16 +22,16 @@ else
   echo "  (gitleaks not installed — using pattern fallback; installing gitleaks is recommended)"
 fi
 SECRETS='-----BEGIN (RSA|OPENSSH|EC|DSA|PGP)? ?PRIVATE KEY|AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{20,}|xox[baprs]-[0-9A-Za-z-]{10,}|AIza[0-9A-Za-z_-]{30,}'
-git grep -nIE "$SECRETS" -- . ':!*scan-before-public.sh' ':!.githooks/pre-push' >/dev/null 2>&1 && { git grep -nIE "$SECRETS" -- . ':!*scan-before-public.sh' ':!.githooks/pre-push'; hit "secret-like strings in tracked files"; }
+git grep -nIP "$SECRETS" -- . ':!*scan-before-public.sh' ':!.githooks/pre-push' >/dev/null 2>&1 && { git grep -nIP "$SECRETS" -- . ':!*scan-before-public.sh' ':!.githooks/pre-push'; hit "secret-like strings in tracked files"; }
 
 # 2. Local machine paths (never belong in a public tree).
 PATHS='/Users/[a-zA-Z]|/home/[a-z]|/private/tmp/|/var/folders/'
-git grep -nIE "$PATHS" -- . ':!pnpm-lock.yaml' ':!*scan-before-public.sh' ':!.githooks/pre-push' >/dev/null 2>&1 && { git grep -nIE "$PATHS" -- . ':!pnpm-lock.yaml' ':!*scan-before-public.sh' ':!.githooks/pre-push' | head; hit "local machine paths in tracked files"; }
+git grep -nIP "$PATHS" -- . ':!pnpm-lock.yaml' ':!*scan-before-public.sh' ':!.githooks/pre-push' >/dev/null 2>&1 && { git grep -nIP "$PATHS" -- . ':!pnpm-lock.yaml' ':!*scan-before-public.sh' ':!.githooks/pre-push' | head; hit "local machine paths in tracked files"; }
 
 # 3. Internal codenames / other private projects / people (the vibe-coding class).
 #    Keep this list in sync across demos; add project-specific terms as needed.
 DENY='Kill Switch|kill-switch|demo-kill-switch|\bA[0-9]\b|\bB[0-9]\b|\bD[0-9]\b|Wave [0-9]|\bMike\b|MIKE-ASKS|GB-ASK|ASK-00[0-9]|KS-[0-9]|\bD[0-9]{3}\b|Chirdeep|Task [0-9]'
-git grep -nIE "$DENY" -- . ':!pnpm-lock.yaml' ':!*scan-before-public.sh' ':!.githooks/pre-push' >/dev/null 2>&1 && { git grep -nIE "$DENY" -- . ':!pnpm-lock.yaml' ':!*scan-before-public.sh' ':!.githooks/pre-push' | head -20; hit "internal codenames / other-project references in tracked files"; }
+git grep -nIP "$DENY" -- . ':!pnpm-lock.yaml' ':!*scan-before-public.sh' ':!.githooks/pre-push' >/dev/null 2>&1 && { git grep -nIP "$DENY" -- . ':!pnpm-lock.yaml' ':!*scan-before-public.sh' ':!.githooks/pre-push' | head -20; hit "internal codenames / other-project references in tracked files"; }
 
 # 4. Planning docs must not live in a public code repo (they belong in <repo>-workspace).
 PLANNING='(^|/)(DECISIONS|DIRECTIONS|PRD|ROADMAP|MIKE-ASKS|.*-IMPROVEMENTS|venue-contract|RELEASE-CHECKLIST|release-pr-drafts)\.md$|(^|/)AGENTS\.md$'

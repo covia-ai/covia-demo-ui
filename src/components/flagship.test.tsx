@@ -49,7 +49,7 @@ describe('TraceViewer', () => {
     expect(screen.queryByText(/"error": "boom"/)).toBeNull();
   });
 
-  it('treats REJECTED and FAILED-with-denial as loud (D004)', () => {
+  it('treats REJECTED and FAILED-with-denial as loud', () => {
     expect(isLoud(ev('a', 'REJECTED'))).toBe(true);
     expect(isLoud(ev('a', 'FAILED', { payload: { error: 'Capability denied: ...' } }))).toBe(true);
     expect(isLoud(ev('a', 'FAILED', { payload: { error: 'network blip' } }))).toBe(false);
