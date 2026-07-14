@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Public-safety scan (secrets, local paths, codenames/other-projects, planning docs)
+        run: bash scripts/scan-before-public.sh
       - uses: pnpm/action-setup@v4
         with: { version: 10.12.4 }
       - uses: actions/setup-node@v4

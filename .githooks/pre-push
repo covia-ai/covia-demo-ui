@@ -1,28 +1,21 @@
 #!/usr/bin/env bash
-# pre-push guard (see ../../CLAUDE.md "Public / Private separation for demos").
-# Hard-blocks things that must never leave any repo (secrets, local machine paths).
-# Warns on internal material (fine in a PRIVATE repo, a leak once public) and reminds
-# you to run the full scan before publishing / changing visibility.
+# pre-push guard (see the top-level CLAUDE.md "Public / Private separation for demos").
+#
+# This repo is public (or feeds a public one), so it must stay public-safe at EVERY
+# push. Run the full scan-before-public gate and BLOCK on any finding: secrets, local
+# machine paths, internal codenames / other-project references, and planning docs.
+#
+# Genuine false positive? Override with:  git push --no-verify
 set -uo pipefail
 cd "$(git rev-parse --show-toplevel)" || exit 0
-BLOCK=0
 
-SECRETS='-----BEGIN (RSA|OPENSSH|EC|DSA|PGP)? ?PRIVATE KEY|AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{20,}|xox[baprs]-[0-9A-Za-z-]{10,}|AIza[0-9A-Za-z_-]{30,}'
-PATHS='/Users/[a-zA-Z]|/home/[a-z]|/private/tmp/|/var/folders/'
-
-if git grep -nIE "$SECRETS" -- . ':!*pre-push' ':!*scan-before-public.sh' >/dev/null 2>&1; then
-  echo "✗ pre-push BLOCKED: secret-like strings in tracked files."; BLOCK=1
+if [ -x scripts/scan-before-public.sh ]; then
+  if ! scripts/scan-before-public.sh; then
+    echo
+    echo "✗ pre-push BLOCKED by scripts/scan-before-public.sh (findings above)."
+    echo "  Keep planning in <repo>-workspace; no codenames / other-project references in code."
+    echo "  Override a genuine false positive with:  git push --no-verify"
+    exit 1
+  fi
 fi
-if git grep -nIE "$PATHS" -- . ':!pnpm-lock.yaml' ':!*pre-push' ':!*scan-before-public.sh' >/dev/null 2>&1; then
-  echo "✗ pre-push BLOCKED: local machine paths in tracked files:"; git grep -nIE "$PATHS" -- . ':!pnpm-lock.yaml' ':!*pre-push' ':!*scan-before-public.sh' | head; BLOCK=1
-fi
-
-# Non-blocking reminder about internal material (expected in a private repo).
-if git ls-files | grep -iqE '(DECISIONS|DIRECTIONS|PRD|MIKE-ASKS|RELEASE-CHECKLIST)\.md$|AGENTS\.md$'; then
-  echo "ℹ pre-push: internal planning docs present — fine while PRIVATE, but this repo is NOT"
-  echo "  safe to make public as-is. Run scripts/scan-before-public.sh --history before any"
-  echo "  publish or visibility change, and keep planning in <repo>-workspace (see CLAUDE.md)."
-fi
-
-[ "$BLOCK" -eq 1 ] && { echo "  (to override in a genuine emergency: git push --no-verify)"; exit 1; }
 exit 0
