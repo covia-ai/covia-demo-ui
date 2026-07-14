@@ -3,16 +3,19 @@
 The shared design system and component library every Covia demo consumes as a package.
 Tokens and components live here once; visual changes happen here, never forked per demo.
 
-> Status: **v0 (pre-tag)**. First tag `v0.1` lands when TraceViewer, JobStateMachineDiagram,
-> the design tokens, and the imported badges all pass their component tests.
+> **v0.1 — released.** Ships the OKLCH design tokens (both themes, AA-verified), the shared
+> type contracts, JobStateBadge, CapBadge, SpendCapCounter, TraceViewer, and
+> JobStateMachineDiagram. Apache-2.0.
 
 ## Install
 
-While the repos are private, consume as a git dependency pinned to a tag:
+Consume as a git dependency pinned to the tag (a `prepare` hook builds `dist` on install):
 
 ```bash
 pnpm add github:covia-ai/covia-demo-ui#v0.1
 ```
+
+Preview the components locally with `pnpm dev` (Vite harness).
 
 ```ts
 import { JobStateBadge, CapBadge, SpendCapCounter } from '@covia/demo-ui';

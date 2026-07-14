@@ -25,6 +25,7 @@
     "./tokens.css": "./dist/tokens.css"
   },
   "scripts": {
+    "dev": "vite",
     "build": "vite build && node -e \"require('fs').copyFileSync('src/tokens/tokens.css','dist/tokens.css')\"",
     "prepare": "vite build && node -e \"require('fs').copyFileSync('src/tokens/tokens.css','dist/tokens.css')\"",
     "typecheck": "tsc --noEmit",
