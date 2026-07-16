@@ -5,7 +5,8 @@ import styles from './TraceViewer.module.css';
 
 /**
  * The library's flagship: a streaming trace list, one row per job event. Rows
- * carry a JobStateBadge, the (shortened) job id, the op name, and a relative
+ * carry a JobStateBadge, the (shortened) job id, the performing agent (— when
+ * the caller was not an agent), the op name, and a relative
  * timestamp; a row with a payload expands to the raw JSON. REJECTED — and a
  * FAILED job carrying a denial payload render loudest. Selecting a row
  * calls onSelect(jobId); highlightJobId marks the decisive row.
@@ -33,6 +34,7 @@ export function TraceViewer({ events, highlightJobId, onSelect }: TraceViewerPro
       <div className={styles.header} aria-hidden="true">
         <span>State</span>
         <span>Job</span>
+        <span>Agent</span>
         <span>Operation</span>
         <span className={styles.right}>+</span>
       </div>
@@ -61,6 +63,7 @@ export function TraceViewer({ events, highlightJobId, onSelect }: TraceViewerPro
                 <span className={styles.jobId} title={event.jobId}>
                   {shortId(event.jobId)}
                 </span>
+                <span className={styles.agent}>{event.agentId ?? '—'}</span>
                 <span className={styles.op}>{event.opName}</span>
                 {loud && <span className={styles.loudTag}>refused</span>}
               </button>
