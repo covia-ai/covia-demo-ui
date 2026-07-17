@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import '../src/tokens/tokens.css';
-import { TraceViewer, JobStateMachineDiagram } from '../src/index';
+import { TraceViewer, JobStateMachineDiagram, LaneHeader, DivergencePin } from '../src/index';
 import type { JobEvent, JobState } from '../src/types';
 
 // A realistic week-close tour, for the visual harness (not shipped).
@@ -49,6 +49,31 @@ function Harness() {
           TraceViewer
         </p>
         <TraceViewer events={events} highlightJobId="0xBH" onSelect={(id) => console.log('select', id)} />
+      </div>
+      <div>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--muted)', margin: '0 0 10px' }}>
+          LaneHeader
+        </p>
+        <div style={{ display: 'grid', gap: 10 }}>
+          <LaneHeader model="Qwen2.5 (local)" agentId="worker-analyst" state="STARTED" />
+          <LaneHeader
+            model="Claude"
+            agentId="worker-analyst-fork-b"
+            lineage="forked from worker-analyst"
+            state="COMPLETE"
+          />
+        </div>
+      </div>
+      <div>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--muted)', margin: '0 0 10px' }}>
+          DivergencePin
+        </p>
+        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+          <DivergencePin step={2} refA="0xa2" refB="0xb2" kind="toolChoice" onOpen={(a, b) => console.log('open', a, b)} />
+          <DivergencePin step={4} refA="0xa4" refB="0xb4" kind="argument" />
+          <DivergencePin step={5} refA="0xa5" refB="0xb5" kind="output" />
+          <DivergencePin step={7} refA="0xa7" refB="0xb7" kind="timing" />
+        </div>
       </div>
     </div>
   );

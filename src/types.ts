@@ -104,3 +104,34 @@ export interface SpendCapCounterProps {
   unit: string; // e.g. 'GBP', 'tokens'
   source: 'hidden' | 'proxy' | 'venue';
 }
+
+/** The ways two execution records can part company at an aligned step. */
+export type DivergenceKind = 'toolChoice' | 'argument' | 'output' | 'timing';
+
+/**
+ * LaneHeader — header for one lane in a side-by-side comparison of agent runs: a model
+ * chip, the (truncated) agent identity, an optional lineage badge for a forked lane, and
+ * an optional job-state pill.
+ */
+export interface LaneHeaderProps {
+  model: string;
+  agentId: string;
+  /** Lineage note for a forked lane (e.g. "forked from worker-1"). Rendered as a badge. */
+  lineage?: string;
+  /** Optional job state rendered as a JobStateBadge at the end of the header. */
+  state?: JobState;
+}
+
+/**
+ * DivergencePin — marker pinned at a step where two execution records part ways.
+ * Activating it opens the two linked raw records.
+ */
+export interface DivergencePinProps {
+  step: number;
+  /** Reference into record A (opaque to the component; e.g. a job id or timeline ref). */
+  refA: string;
+  /** Reference into record B. */
+  refB: string;
+  kind: DivergenceKind;
+  onOpen?: (refA: string, refB: string) => void;
+}
