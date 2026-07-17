@@ -13,6 +13,8 @@ export { CapBadge } from './components/CapBadge/CapBadge';
 export { SpendCapCounter } from './components/SpendCapCounter/SpendCapCounter';
 export { TraceViewer, isLoud } from './components/TraceViewer/TraceViewer';
 export { JobStateMachineDiagram } from './components/JobStateMachineDiagram/JobStateMachineDiagram';
+export { LaneHeader } from './components/LaneHeader/LaneHeader';
+export { DivergencePin } from './components/DivergencePin/DivergencePin';
 
 export { JOB_STATES } from './types';
 export type {
@@ -24,4 +26,7 @@ export type {
   JobStateBadgeProps,
   CapBadgeProps,
   SpendCapCounterProps,
+  LaneHeaderProps,
+  DivergencePinProps,
+  DivergenceKind,
 } from './types';

@@ -1,4 +1,14 @@
-# Changelog — covia-demo-ui
+# Changelog
+
+## [Unreleased]
+
+- LaneHeader: header for one lane in a side-by-side comparison of agent runs - model
+  chip, truncated agent identity, optional lineage badge for forked lanes, optional
+  job-state pill. Text-first, both themes.
+- DivergencePin: a real-button marker pinned at a step where two execution records part
+  ways (tool choice / argument / output / timing), opening the two linked records on
+  activation. Step and kind always carried as text.
+ — covia-demo-ui
 
 All notable changes to the shared component library. British English.
 
